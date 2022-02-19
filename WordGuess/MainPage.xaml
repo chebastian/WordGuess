@@ -25,9 +25,30 @@
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
 
-        <Grid Grid.Row="2" RowDefinitions="Auto,Auto" VerticalOptions="End">
-            <Entry Completed="OnCompleted" TextColor="Black" MaxLength="5" VerticalOptions="End" MinimumHeightRequest="40" Text="{Binding NextGuess}" ReturnCommand="{Binding EnterCommand}"/>
-            <Button Text="New Game" Command="{Binding NewGameCommand}" Grid.Row="1"/>
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,Auto">
+            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding TopRowKeys}" Spacing="2" HorizontalOptions="Center">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding MidRowKeys}" Spacing="2" HorizontalOptions="Center">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding BottomRowKeys}" Spacing="2" HorizontalOptions="Center">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
         </Grid>
     </Grid>
 </ContentPage>

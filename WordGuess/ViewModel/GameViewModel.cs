@@ -62,6 +62,12 @@ namespace WordGuess.ViewModel
         private ObservableCollection<WordRow> _guesses;
         [ObservableProperty]
         private string _nextGuess;
+        [ObservableProperty]
+        private List<char> topRowKeys;
+        [ObservableProperty]
+        private List<char> midRowKeys;
+        [ObservableProperty]
+        private List<char> bottomRowKeys;
         public ICommand EnterCommand { get; set; }
         public ICommand NewGameCommand { get; set; }
 
@@ -76,6 +82,15 @@ namespace WordGuess.ViewModel
 
             EnterCommand = new RelayCommand(OnEnter);
             NewGameCommand = new RelayCommand(OnNewGame);
+            TopRowKeys = "qwertyuiop".ToCharArray().ToList();
+            MidRowKeys = "asdfghjkl".ToCharArray().ToList();
+            BottomRowKeys = "<zxcvbnm".ToCharArray().ToList();
+        }
+
+        [ICommand]
+        public void EnterLetter(char letter)
+        {
+
         }
 
         private void OnNewGame()
