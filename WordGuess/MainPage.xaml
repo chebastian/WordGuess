@@ -1,0 +1,31 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordGuess.MainPage"
+             xmlns:viewModel="clr-namespace:WordGuess.ViewModel"
+             x:DataType="viewModel:GameViewModel"
+             BackgroundColor="{DynamicResource SecondaryColor}">
+
+        <Grid RowDefinitions="*,*,Auto" x:Name="mainGrid">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Guesses}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="viewModel:WordRow">
+                        <VerticalStackLayout>
+                            <Label HorizontalTextAlignment="Center" Text="{Binding ReadableGuess}"/>
+                            <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                                        <Label HorizontalTextAlignment="Center" BackgroundColor="{Binding Color}" Margin="2" Padding="10" Text="{Binding Char}"/>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Grid Grid.Row="2" RowDefinitions="Auto,Auto" VerticalOptions="End">
+                <Entry TextColor="Black" MaxLength="5" VerticalOptions="End" MinimumHeightRequest="40" Text="{Binding NextGuess}" ReturnCommand="{Binding EnterCommand}"/>
+                <Button Text="New Game" Command="{Binding NewGameCommand}" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+</ContentPage>
