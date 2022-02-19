@@ -23,21 +23,48 @@ namespace WordGuess.ViewModel
     {
         [ObservableProperty]
         private List<SingleCharViewModel> _guess;
-        public string ReadableGuess { get; set; }
 
         public WordRow(string guess, string answer)
         {
-            ReadableGuess = guess;
-            Guess = MakeGuess(guess.ToUpper(), answer.ToUpper()).Select(x => new ViewModel.SingleCharViewModel(x.c, x.state switch
+        }
+
+        public WordRow()
+        {
+            Guess = new List<SingleCharViewModel>()
+            { 
+                new SingleCharViewModel(' ',Colors.White),
+                new SingleCharViewModel(' ',Colors.White),
+                new SingleCharViewModel(' ',Colors.White),
+                new SingleCharViewModel(' ',Colors.White),
+                new SingleCharViewModel(' ',Colors.White),
+            };
+        }
+
+        public static WordRow CreateGuess(string guess, string answer)
+        {
+            var row = new WordRow();
+            row.Guess = WordRow.MakeGuess(guess.ToUpper(), answer.ToUpper()).Select(x => new ViewModel.SingleCharViewModel(x.c, x.state switch
             { 
                 GuessState.InWord => Colors.Yellow,
                 GuessState.Correct => Colors.Green,
                 _ => Colors.Gray
             })).ToList();
+            return row;
+        }
+        public static WordRow CreateHint(string guess)
+        {
+            var row = new WordRow();
+            row.Guess = guess.ToUpper().ToCharArray().Select(x => new SingleCharViewModel(x, x == ' ' ? Colors.White : Colors.LightBlue)).ToList();
+            return row;
         }
 
-        public enum GuessState { Incorrect, InWord, Correct }
-        public List<(char c, GuessState state)> MakeGuess(string guess, string answer)
+        public static WordRow EmptyGuess()
+        {
+            return CreateHint("     ");
+        }
+
+        public enum GuessState { Incorrect, InWord, Correct, NoGuess }
+        public static List<(char c, GuessState state)> MakeGuess(string guess, string answer)
         {
             var res = new List<(char c, GuessState)>();
             var answerArr = answer.ToCharArray();
@@ -60,6 +87,9 @@ namespace WordGuess.ViewModel
         private string _name;
         [ObservableProperty]
         private ObservableCollection<WordRow> _guesses;
+
+        public int Current { get; private set; }
+
         [ObservableProperty]
         private string _nextGuess;
         [ObservableProperty]
@@ -77,26 +107,52 @@ namespace WordGuess.ViewModel
         public GameViewModel()
         {
             _name = "swello";
-            _correctWord = "board";
-            _guesses = new ObservableCollection<WordRow>();
-
             EnterCommand = new RelayCommand(OnEnter);
             NewGameCommand = new RelayCommand(OnNewGame);
             TopRowKeys = "qwertyuiop".ToCharArray().ToList();
             MidRowKeys = "asdfghjkl".ToCharArray().ToList();
-            BottomRowKeys = "<zxcvbnm".ToCharArray().ToList();
+            BottomRowKeys = "zxcvbnm".ToCharArray().ToList();
+            InitGame("board");
+        }
+
+        private void InitGame(string word)
+        {
+            _correctWord = word;
+            _guesses = new ObservableCollection<WordRow>()
+            { 
+                WordRow.EmptyGuess(),
+                WordRow.EmptyGuess(),
+                WordRow.EmptyGuess(),
+                WordRow.EmptyGuess(),
+                WordRow.EmptyGuess(),
+            };
+
+            Current = 0;
+            NextGuess = ""; 
         }
 
         [ICommand]
         public void EnterLetter(char letter)
         {
+            //if (Guesses.Any())
+            //    Guesses.Remove(Guesses.Last());
 
+            if(NextGuess.Length + 1 <= 5)
+                NextGuess = $"{NextGuess}{letter}";
+
+            Guesses[Current] = WordRow.CreateHint(NextGuess.PadRight(5));
+        }
+
+        [ICommand]
+        public void RemoveLetter()
+        {
+            if(NextGuess.Length > 0)
+                NextGuess = NextGuess.Substring(0,NextGuess.Length - 1);
+            Guesses[Current] = WordRow.CreateHint(NextGuess.PadRight(5));
         }
 
         private void OnNewGame()
         {
-            Guesses.Clear();
-            NextGuess = "";
             var words = new List<string>
             { 
                 "board",
@@ -108,19 +164,28 @@ namespace WordGuess.ViewModel
                 "codes",
             };
 
-            _correctWord = words[new Random().Next(words.Count - 1)];
+            InitGame(words[new Random().Next(words.Count - 1)]);
         }
 
         private void AddGuess(string guess)
         {
-            _guesses.Add(new WordRow(guess, _correctWord));
+            _guesses[Current] = WordRow.CreateGuess(guess,_correctWord);
         }
 
         private void OnEnter()
         {
+            if (NextGuess.Length < 5)
+                return;
+
+            if(Current +1 == 5 && _correctWord != NextGuess)
+            {
+                OnNewGame();
+            }
+
             AddGuess(NextGuess);
             OnPropertyChanged(nameof(Guesses));
             NextGuess = "";
+            Current++;
         }
     }
 }

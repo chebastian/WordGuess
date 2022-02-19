@@ -1,4 +1,4 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordGuess.MainPage"
              xmlns:viewModel="clr-namespace:WordGuess.ViewModel"
@@ -10,12 +10,11 @@
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="viewModel:WordRow">
                     <VerticalStackLayout>
-                        <Label HorizontalTextAlignment="Center" Text="{Binding ReadableGuess}"/>
-                        <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
+                        <HorizontalStackLayout HorizontalOptions="Fill" BindableLayout.ItemsSource="{Binding Guess}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="viewModel:SingleCharViewModel">
-                                    <Frame BackgroundColor="{Binding Color}" Margin="2" CornerRadius="4">
-                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10" Text="{Binding Char}"/>
+                                    <Frame BackgroundColor="{Binding Color}" Margin="2" CornerRadius="4" BorderColor="Black">
+                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10" Text="{Binding Char}" MinimumWidthRequest="30"/>
                                     </Frame>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
@@ -25,11 +24,12 @@
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
 
-        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,Auto">
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,80" RowSpacing="8">
+
             <HorizontalStackLayout BindableLayout.ItemsSource="{Binding TopRowKeys}" Spacing="2" HorizontalOptions="Center">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                        <Button HeightRequest="60" Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </HorizontalStackLayout>
@@ -37,18 +37,25 @@
             <HorizontalStackLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding MidRowKeys}" Spacing="2" HorizontalOptions="Center">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                        <Button HeightRequest="60" Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding BottomRowKeys}" Spacing="2" HorizontalOptions="Center">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Button Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </HorizontalStackLayout>
+            <Grid
+                Grid.Row="2" 
+                ColumnDefinitions="*,Auto,*" 
+                HorizontalOptions="Center">
+                <Button VerticalOptions="Center" CornerRadius="40" FontSize="20" Margin="10" Text="x" TextColor="White" Background="Red" Command="{Binding RemoveLetterCommand}"/>
+                <HorizontalStackLayout Grid.Column="1" BindableLayout.ItemsSource="{Binding BottomRowKeys}" Spacing="2" HorizontalOptions="Center">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Button HeightRequest="60" Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout> 
+                <Button VerticalOptions="Center" Grid.Column="2" FontSize="20" Margin="10,0"  Text="x" Command="{Binding EnterCommand}" Background="Green" CornerRadius="40"/>
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>
