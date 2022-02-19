@@ -9,7 +9,8 @@
             <Color x:Key="SecondaryColor">White</Color>
 
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="Large"/>
                 <Setter Property="FontFamily" Value="OpenSansRegular" />
             </Style>
 

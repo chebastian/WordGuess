@@ -8,5 +8,9 @@ public partial class MainPage : ContentPage
 		BindingContext = vm;
 		InitializeComponent();
 	}
+
+    private void OnCompleted(object sender, EventArgs e)
+    {
+    }
 }
 

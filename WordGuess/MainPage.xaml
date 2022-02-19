@@ -5,27 +5,29 @@
              x:DataType="viewModel:GameViewModel"
              BackgroundColor="{DynamicResource SecondaryColor}">
 
-        <Grid RowDefinitions="*,*,Auto" x:Name="mainGrid">
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Guesses}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="viewModel:WordRow">
-                        <VerticalStackLayout>
-                            <Label HorizontalTextAlignment="Center" Text="{Binding ReadableGuess}"/>
-                            <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
-                                        <Label HorizontalTextAlignment="Center" BackgroundColor="{Binding Color}" Margin="2" Padding="10" Text="{Binding Char}"/>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
+    <Grid RowDefinitions="*,*,Auto" x:Name="mainGrid">
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Guesses}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="viewModel:WordRow">
+                    <VerticalStackLayout>
+                        <Label HorizontalTextAlignment="Center" Text="{Binding ReadableGuess}"/>
+                        <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                                    <Frame BackgroundColor="{Binding Color}" Margin="2" CornerRadius="4">
+                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10" Text="{Binding Char}"/>
+                                    </Frame>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
 
-            <Grid Grid.Row="2" RowDefinitions="Auto,Auto" VerticalOptions="End">
-                <Entry TextColor="Black" MaxLength="5" VerticalOptions="End" MinimumHeightRequest="40" Text="{Binding NextGuess}" ReturnCommand="{Binding EnterCommand}"/>
-                <Button Text="New Game" Command="{Binding NewGameCommand}" Grid.Row="1"/>
-            </Grid>
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto" VerticalOptions="End">
+            <Entry Completed="OnCompleted" TextColor="Black" MaxLength="5" VerticalOptions="End" MinimumHeightRequest="40" Text="{Binding NextGuess}" ReturnCommand="{Binding EnterCommand}"/>
+            <Button Text="New Game" Command="{Binding NewGameCommand}" Grid.Row="1"/>
         </Grid>
+    </Grid>
 </ContentPage>
