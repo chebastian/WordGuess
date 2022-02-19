@@ -10,11 +10,11 @@
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="viewModel:WordRow">
                     <VerticalStackLayout>
-                        <HorizontalStackLayout HorizontalOptions="Fill" BindableLayout.ItemsSource="{Binding Guess}">
+                        <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="viewModel:SingleCharViewModel">
                                     <Frame BackgroundColor="{Binding Color}" Margin="2" CornerRadius="4" BorderColor="Black">
-                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10" Text="{Binding Char}" MinimumWidthRequest="30"/>
+                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
                                     </Frame>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
@@ -46,7 +46,7 @@
                 Grid.Row="2" 
                 ColumnDefinitions="*,Auto,*" 
                 HorizontalOptions="Center">
-                <Button VerticalOptions="Center" CornerRadius="40" FontSize="20" Margin="10" Text="x" TextColor="White" Background="Red" Command="{Binding RemoveLetterCommand}"/>
+                <Button VerticalOptions="Center" CornerRadius="40" FontSize="20" Margin="10" Text="X" TextColor="White" Background="Red" Command="{Binding RemoveLetterCommand}"/>
                 <HorizontalStackLayout Grid.Column="1" BindableLayout.ItemsSource="{Binding BottomRowKeys}" Spacing="2" HorizontalOptions="Center">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
@@ -54,7 +54,7 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </HorizontalStackLayout> 
-                <Button VerticalOptions="Center" Grid.Column="2" FontSize="20" Margin="10,0"  Text="x" Command="{Binding EnterCommand}" Background="Green" CornerRadius="40"/>
+                <Button VerticalOptions="Center" Grid.Column="2" FontSize="20" Margin="10,0"  Text="O" Command="{Binding EnterCommand}" Background="Green" CornerRadius="40"/>
             </Grid>
         </Grid>
     </Grid>
