@@ -108,6 +108,8 @@
         </Grid>
         <word:MessageView
             Message="Congratulations you win!" 
+            BorderColor="#00FF00"
+            FillColor="#AAFFAACC"
             IsVisible="{Binding IsWin}"
             ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
             ButtonLabel="Play again" 
@@ -120,12 +122,13 @@
         <word:MessageView
             Message="You fail!" 
             IsVisible="{Binding IsGameOver}"
+            BorderColor="#FF0000"
+            FillColor="DarkGray"
             ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
             ButtonLabel="Try again" 
             Grid.RowSpan="3" 
             HorizontalOptions="Fill"
-            VerticalOptions="Fill"
-            Padding="50"
+            VerticalOptions="Center"
             Background="Transparent" 
             Grid.ColumnSpan="3"
             />

@@ -6,12 +6,12 @@
              >
     <ContentView.Content>
         <Grid BindingContext="{x:Reference this}" >
-            <BoxView CornerRadius="20" HorizontalOptions="Fill" BackgroundColor="Red" VerticalOptions="Fill"/>
+            <BoxView CornerRadius="20" HorizontalOptions="Fill" BackgroundColor="{Binding BorderColor}" VerticalOptions="Fill"/>
             <Grid RowDefinitions="*,Auto,*" Margin="10">
-                <BoxView Grid.RowSpan="3" CornerRadius="20" BackgroundColor="Blue" />
+                <BoxView Grid.RowSpan="3" CornerRadius="20" BackgroundColor="{Binding FillColor}" />
                 <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="35">
-                    <Label HorizontalTextAlignment="Center" Text="{Binding Message}"  />
-                    <Button Text="{Binding ButtonLabel}" Command="{Binding ButtonCommand}"/>
+                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Message}"  />
+                    <Button VerticalOptions="Center" Text="{Binding ButtonLabel}" Command="{Binding ButtonCommand}"/>
                 </VerticalStackLayout>
             </Grid>
         </Grid>
