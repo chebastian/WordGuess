@@ -112,7 +112,6 @@
             ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
             ButtonLabel="Play again" 
             Grid.RowSpan="3" 
-            HeightRequest="200"
             HorizontalOptions="Fill"
             VerticalOptions="Center"
             Background="#FF00FF" 
@@ -124,10 +123,10 @@
             ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
             ButtonLabel="Try again" 
             Grid.RowSpan="3" 
-            HeightRequest="200"
             HorizontalOptions="Fill"
-            VerticalOptions="Center"
-            Background="#FF00FF" 
+            VerticalOptions="Fill"
+            Padding="50"
+            Background="Transparent" 
             Grid.ColumnSpan="3"
             />
     </Grid>

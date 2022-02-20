@@ -69,8 +69,6 @@ namespace WordGuess.ViewModel
             MidRowKeys = "asdfghjkl".ToCharArray().ToList();
             BottomRowKeys = "zxcvbnm".ToCharArray().ToList();
             InitGame("board");
-            AddGuess("bread");
-            AddGuess("xrrxx");
         }
 
         private void InitGame(string word)
