@@ -8,15 +8,17 @@ using System.Windows.Input;
 
 namespace WordGuess.ViewModel
 { 
+
+    public enum CharState { Incorrect, InWord, Correct, Empty, Guess }
     public class SingleCharViewModel
     { 
-        public SingleCharViewModel(char ch, Color col)
+        public SingleCharViewModel(char ch, CharState state)
         {
             Char = ch;
-            Color = col; 
+            State = state;
         }
         public char Char { get; set; }
-        public Color Color { get; }
+        public CharState State { get; }
     }
 
     public partial class WordRow : ObservableObject
@@ -32,29 +34,27 @@ namespace WordGuess.ViewModel
         {
             Guess = new List<SingleCharViewModel>()
             { 
-                new SingleCharViewModel(' ',Colors.White),
-                new SingleCharViewModel(' ',Colors.White),
-                new SingleCharViewModel(' ',Colors.White),
-                new SingleCharViewModel(' ',Colors.White),
-                new SingleCharViewModel(' ',Colors.White),
+                new SingleCharViewModel(' ',CharState.Empty),
+                new SingleCharViewModel(' ',CharState.Empty),
+                new SingleCharViewModel(' ',CharState.Empty),
+                new SingleCharViewModel(' ',CharState.Empty),
+                new SingleCharViewModel(' ',CharState.Empty),
             };
         }
 
         public static WordRow CreateGuess(string guess, string answer)
         {
             var row = new WordRow();
-            row.Guess = WordRow.MakeGuess(guess.ToUpper(), answer.ToUpper()).Select(x => new ViewModel.SingleCharViewModel(x.c, x.state switch
-            { 
-                GuessState.InWord => Colors.Yellow,
-                GuessState.Correct => Colors.Green,
-                _ => Colors.Gray
-            })).ToList();
+            row.Guess = WordRow.MakeGuess(guess.ToUpper(), answer.ToUpper()).Select(x => new ViewModel.SingleCharViewModel(x.c, x.state)).ToList();
             return row;
         }
         public static WordRow CreateHint(string guess)
         {
             var row = new WordRow();
-            row.Guess = guess.ToUpper().ToCharArray().Select(x => new SingleCharViewModel(x, x == ' ' ? Colors.White : Colors.LightBlue)).ToList();
+            row.Guess = guess.ToUpper()
+                .ToCharArray()
+                .Select(x => new SingleCharViewModel(x, x == ' ' ? CharState.Empty : CharState.Guess))
+                .ToList();
             return row;
         }
 
@@ -62,20 +62,18 @@ namespace WordGuess.ViewModel
         {
             return CreateHint("     ");
         }
-
-        public enum GuessState { Incorrect, InWord, Correct, NoGuess }
-        public static List<(char c, GuessState state)> MakeGuess(string guess, string answer)
+        public static List<(char c, CharState state)> MakeGuess(string guess, string answer)
         {
-            var res = new List<(char c, GuessState)>();
+            var res = new List<(char c, CharState)>();
             var answerArr = answer.ToCharArray();
             foreach(var c in guess.Select((x,i) => (character: x,index: i)))
             {
                 if (answerArr[c.index] == c.character)
-                    res.Add((c.character, GuessState.Correct));
+                    res.Add((c.character, CharState.Correct));
                 else if (answer.Contains(c.character))
-                    res.Add((c.character, GuessState.InWord));
+                    res.Add((c.character, CharState.InWord));
                 else
-                    res.Add((c.character, GuessState.Incorrect));
+                    res.Add((c.character, CharState.Incorrect));
             }
             return res;
         }

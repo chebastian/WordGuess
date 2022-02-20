@@ -6,18 +6,51 @@
              BackgroundColor="{DynamicResource SecondaryColor}">
 
     <Grid RowDefinitions="*,*,Auto" x:Name="mainGrid">
+        <Grid.Resources>
+            <viewModel:GuessTemplateSelector x:Key="selector">
+                <viewModel:GuessTemplateSelector.Empty>
+                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                        <Frame BackgroundColor="White" Margin="2" CornerRadius="4" BorderColor="Gray">
+                            <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="X" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                        </Frame>
+                    </DataTemplate>
+                </viewModel:GuessTemplateSelector.Empty>
+                <viewModel:GuessTemplateSelector.Guess>
+                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                        <Frame BackgroundColor="White" Margin="2" CornerRadius="4" BorderColor="Black">
+                            <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Char}" TextColor="Black" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                        </Frame>
+                    </DataTemplate> 
+                </viewModel:GuessTemplateSelector.Guess>
+                <viewModel:GuessTemplateSelector.Correct>
+                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                        <Frame BackgroundColor="Green" Margin="2" CornerRadius="4" BorderColor="Black">
+                            <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                        </Frame>
+                    </DataTemplate> 
+                </viewModel:GuessTemplateSelector.Correct>
+                <viewModel:GuessTemplateSelector.Misplaced>
+                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                        <Frame BackgroundColor="Yellow" Margin="2" CornerRadius="4" BorderColor="Black">
+                            <Label FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                        </Frame>
+                    </DataTemplate> 
+                </viewModel:GuessTemplateSelector.Misplaced>
+                <viewModel:GuessTemplateSelector.Wrong>
+                    <DataTemplate x:DataType="viewModel:SingleCharViewModel">
+                        <Frame BackgroundColor="Red" Margin="2" CornerRadius="4" BorderColor="Black">
+                            <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                        </Frame>
+                    </DataTemplate> 
+                </viewModel:GuessTemplateSelector.Wrong>
+            </viewModel:GuessTemplateSelector>
+        </Grid.Resources>
+
         <VerticalStackLayout BindableLayout.ItemsSource="{Binding Guesses}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="viewModel:WordRow">
                     <VerticalStackLayout>
-                        <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="viewModel:SingleCharViewModel">
-                                    <Frame BackgroundColor="{Binding Color}" Margin="2" CornerRadius="4" BorderColor="Black">
-                                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
-                                    </Frame>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
+                        <HorizontalStackLayout HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding Guess}" BindableLayout.ItemTemplateSelector="{StaticResource selector}">
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </DataTemplate>
@@ -53,7 +86,7 @@
                             <Button HeightRequest="60" Text="{Binding .}" Command="{Binding Path=EnterLetterCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}" CommandParameter="{Binding .}"/>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </HorizontalStackLayout> 
+                </HorizontalStackLayout>
                 <Button VerticalOptions="Center" Grid.Column="2" FontSize="20" Margin="10,0"  Text="O" Command="{Binding EnterCommand}" Background="Green" CornerRadius="40"/>
             </Grid>
         </Grid>
