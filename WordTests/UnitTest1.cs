@@ -42,7 +42,7 @@ namespace WordTests
         }
 
         [Fact]
-        public void MisplacedTwice()
+        public void MultipleMisplacedCharactersCountsAsWrong_IfNotAvailableInChar()
         {
             var guess = WordRow.MakeGuess("baaaa","abbbb");
             Assert.Collection(guess,
@@ -54,7 +54,7 @@ namespace WordTests
         }
 
         [Fact]
-        public void MisplacedThenCorrect()
+        public void MisplacedCharacter_DoesNotCountAsCorrect_If_FirstMisplaced()
         {
             var guess = WordRow.MakeGuess("bbxxx","abccc");
             Assert.Collection(guess,
