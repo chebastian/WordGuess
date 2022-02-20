@@ -9,12 +9,21 @@ using System.Windows.Input;
 namespace WordGuess.ViewModel
 {
 
+    public enum GameState
+    { 
+        Playing,
+        Lost,
+        Won
+    }
+
     public partial class GameViewModel : ObservableObject
     {
         [ObservableProperty]
         private string _name;
         [ObservableProperty]
         private ObservableCollection<WordRow> _guesses;
+        [ObservableProperty]
+        private GameState _state;
 
         public int Current { get; private set; }
 
