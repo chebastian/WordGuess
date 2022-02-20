@@ -32,7 +32,7 @@
                 <viewModel:GuessTemplateSelector.Misplaced>
                     <DataTemplate x:DataType="viewModel:SingleCharViewModel">
                         <Frame BackgroundColor="Yellow" Margin="2" CornerRadius="4" BorderColor="Black">
-                            <Label FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
+                            <Label FontAttributes="Bold" TextColor="#333333" HorizontalTextAlignment="Center" Text="{Binding Char}" MinimumWidthRequest="30" MaximumWidthRequest="30"/>
                         </Frame>
                     </DataTemplate> 
                 </viewModel:GuessTemplateSelector.Misplaced>

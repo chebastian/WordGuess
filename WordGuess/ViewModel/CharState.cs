@@ -1,4 +1,4 @@
 ﻿namespace WordGuess.ViewModel
 {
-    public enum CharState { Incorrect, InWord, Correct, Empty, Guess }
+    public enum CharState { Wrong, InWord, Correct, Empty, Guess }
 }

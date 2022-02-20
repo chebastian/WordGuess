@@ -41,6 +41,8 @@ namespace WordGuess.ViewModel
             MidRowKeys = "asdfghjkl".ToCharArray().ToList();
             BottomRowKeys = "zxcvbnm".ToCharArray().ToList();
             InitGame("board");
+            AddGuess("bread");
+            AddGuess("xrrxx");
         }
 
         private void InitGame(string word)
@@ -98,6 +100,9 @@ namespace WordGuess.ViewModel
         private void AddGuess(string guess)
         {
             _guesses[Current] = WordRow.CreateGuess(guess,_correctWord);
+            OnPropertyChanged(nameof(Guesses));
+            NextGuess = "";
+            Current++;
         }
 
         private void OnEnter()
@@ -111,9 +116,6 @@ namespace WordGuess.ViewModel
             }
 
             AddGuess(NextGuess);
-            OnPropertyChanged(nameof(Guesses));
-            NextGuess = "";
-            Current++;
         }
     }
 }

@@ -47,14 +47,24 @@ namespace WordGuess.ViewModel
         {
             var res = new List<(char c, CharState)>();
             var answerArr = answer.ToCharArray();
+            var availableChars = answer.ToCharArray().ToList();
+            var grouped = guess.GroupBy(x => x);
             foreach(var c in guess.Select((x,i) => (character: x,index: i)))
             {
-                if (answerArr[c.index] == c.character)
+                if (answerArr[c.index] == c.character && availableChars.Contains(c.character))
+                {
                     res.Add((c.character, CharState.Correct));
-                else if (answer.Contains(c.character))
+                    availableChars.Remove(c.character);
+                }
+                else if (availableChars.Contains(c.character))
+                {
                     res.Add((c.character, CharState.InWord));
+                    availableChars.Remove(c.character);
+                }
                 else
-                    res.Add((c.character, CharState.Incorrect));
+                {
+                    res.Add((c.character, CharState.Wrong)); 
+                }
             }
             return res;
         }

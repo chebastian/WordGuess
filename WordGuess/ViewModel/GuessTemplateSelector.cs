@@ -19,7 +19,7 @@ namespace WordGuess.ViewModel
             return ch.State switch
             { 
                 CharState.Correct => Correct,
-                CharState.Incorrect => Wrong,
+                CharState.Wrong => Wrong,
                 CharState.InWord => Misplaced,
                 CharState.Guess => Guess,
                 _ => Empty
