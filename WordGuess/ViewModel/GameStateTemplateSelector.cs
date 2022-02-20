@@ -19,7 +19,7 @@ namespace WordGuess.ViewModel
                 GameState.Playing => PlayingTemplate,
                 GameState.Won => CorrectTemplate,
                 GameState.Lost => GameOverTemplate,
-                _ => throw new ArgumentOutOfRangeException(nameof(game.State));
+                _ => throw new ArgumentOutOfRangeException(nameof(game.State))
             };
         }
     }

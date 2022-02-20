@@ -1,4 +1,6 @@
 ﻿namespace WordGuess;
+
+using Microsoft.Toolkit.Mvvm.Input;
 using WordGuess.ViewModel;
 
 public partial class MainPage : ContentPage

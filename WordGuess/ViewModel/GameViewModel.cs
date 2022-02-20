@@ -40,6 +40,25 @@ namespace WordGuess.ViewModel
 
         private string _correctWord;
 
+        [ObservableProperty]
+        private bool _isGameOver = false;
+        [ObservableProperty]
+        private bool _isWin = false;
+
+        [ICommand]
+        public void RestartGame()
+        {
+            IsWin = false;
+            IsGameOver = false;
+            OnNewGame();
+        }
+
+        [ICommand]
+        public void ToggleGameOver()
+        { 
+            IsGameOver = !IsGameOver;
+        }
+
 
         public GameViewModel()
         {
@@ -56,6 +75,7 @@ namespace WordGuess.ViewModel
 
         private void InitGame(string word)
         {
+            State = GameState.Lost;
             _correctWord = word;
             _guesses = new ObservableCollection<WordRow>()
             { 
@@ -126,13 +146,11 @@ namespace WordGuess.ViewModel
 
             if(Current == 5 && _correctWord != currentGuess)
             {
-                App.Current.MainPage.DisplayAlert("Game over", "You are out of turns","OK");
-                OnNewGame();
+                IsGameOver = true;
             }
             else if (_correctWord == currentGuess)
             {
-                App.Current.MainPage.DisplayAlert("Congratulations!", $"{_correctWord} is correct!","OK");
-                OnNewGame(); 
+                IsWin = true;
             }
         }
     }

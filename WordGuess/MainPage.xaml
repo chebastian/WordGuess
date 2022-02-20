@@ -2,9 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WordGuess.MainPage"
              xmlns:viewModel="clr-namespace:WordGuess.ViewModel"
+             xmlns:word="clr-namespace:WordGuess"
              x:DataType="viewModel:GameViewModel"
              BackgroundColor="{DynamicResource SecondaryColor}">
 
+    <ContentPage.Resources>
+        <viewModel:GameStateTemplateSelector x:Key="gameTemplate">
+            <viewModel:GameStateTemplateSelector.GameOverTemplate>
+                <DataTemplate>
+                    <word:GameOverView/>
+                </DataTemplate>
+            </viewModel:GameStateTemplateSelector.GameOverTemplate>
+            <viewModel:GameStateTemplateSelector.PlayingTemplate>
+                <DataTemplate>
+                    <Grid/>
+                </DataTemplate>
+            </viewModel:GameStateTemplateSelector.PlayingTemplate>
+        </viewModel:GameStateTemplateSelector>
+    </ContentPage.Resources>
     <Grid RowDefinitions="*,*,Auto" x:Name="mainGrid">
         <Grid.Resources>
             <viewModel:GuessTemplateSelector x:Key="selector">
@@ -57,6 +72,7 @@
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
 
+
         <Grid Grid.Row="2" RowDefinitions="Auto,Auto,80" RowSpacing="8">
 
             <HorizontalStackLayout BindableLayout.ItemsSource="{Binding TopRowKeys}" Spacing="2" HorizontalOptions="Center">
@@ -90,5 +106,29 @@
                 <Button VerticalOptions="Center" Grid.Column="2" FontSize="20" Margin="10,0"  Text="O" Command="{Binding EnterCommand}" Background="Green" CornerRadius="40"/>
             </Grid>
         </Grid>
+        <word:MessageView
+            Message="Congratulations you win!" 
+            IsVisible="{Binding IsWin}"
+            ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
+            ButtonLabel="Play again" 
+            Grid.RowSpan="3" 
+            HeightRequest="200"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            Background="#FF00FF" 
+            Grid.ColumnSpan="3"
+            />
+        <word:MessageView
+            Message="You fail!" 
+            IsVisible="{Binding IsGameOver}"
+            ButtonCommand="{Binding Path=RestartGameCommand, Source={RelativeSource AncestorType={x:Type viewModel:GameViewModel}}}"
+            ButtonLabel="Try again" 
+            Grid.RowSpan="3" 
+            HeightRequest="200"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            Background="#FF00FF" 
+            Grid.ColumnSpan="3"
+            />
     </Grid>
 </ContentPage>

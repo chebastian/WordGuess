@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordGuess.MessageView"
+             x:Name="this"
+             >
+    <ContentView.Content>
+        <Grid BindingContext="{x:Reference this}" >
+            <BoxView CornerRadius="20" HorizontalOptions="Fill" BackgroundColor="Red" VerticalOptions="Fill"/>
+            <Grid RowDefinitions="*,Auto,*" Margin="10">
+                <BoxView Grid.RowSpan="3" CornerRadius="20" BackgroundColor="Blue" />
+                <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="35">
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Message}"  />
+                    <Button Text="{Binding ButtonLabel}" Command="{Binding ButtonCommand}"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
