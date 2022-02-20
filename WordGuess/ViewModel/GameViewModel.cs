@@ -35,7 +35,7 @@ namespace WordGuess.ViewModel
         public GameViewModel()
         {
             _name = "swello";
-            EnterCommand = new RelayCommand(OnEnter);
+            EnterCommand = new RelayCommand(OnEnter,() => NextGuess.Length == _correctWord.Length);
             NewGameCommand = new RelayCommand(OnNewGame);
             TopRowKeys = "qwertyuiop".ToCharArray().ToList();
             MidRowKeys = "asdfghjkl".ToCharArray().ToList();
@@ -59,6 +59,7 @@ namespace WordGuess.ViewModel
 
             Current = 0;
             NextGuess = ""; 
+            OnPropertyChanged(nameof(Guesses));
         }
 
         [ICommand]
@@ -71,6 +72,7 @@ namespace WordGuess.ViewModel
                 NextGuess = $"{NextGuess}{letter}";
 
             Guesses[Current] = WordRow.CreateHint(NextGuess.PadRight(5));
+            (EnterCommand as RelayCommand).NotifyCanExecuteChanged();
         }
 
         [ICommand]
@@ -103,19 +105,26 @@ namespace WordGuess.ViewModel
             OnPropertyChanged(nameof(Guesses));
             NextGuess = "";
             Current++;
+            (EnterCommand as RelayCommand).NotifyCanExecuteChanged();
         }
 
         private void OnEnter()
         {
             if (NextGuess.Length < 5)
                 return;
+            var currentGuess = NextGuess;
+            AddGuess(NextGuess);
 
-            if(Current +1 == 5 && _correctWord != NextGuess)
+            if(Current == 5 && _correctWord != currentGuess)
             {
+                App.Current.MainPage.DisplayAlert("Game over", "You are out of turns","OK");
                 OnNewGame();
             }
-
-            AddGuess(NextGuess);
+            else if (_correctWord == currentGuess)
+            {
+                App.Current.MainPage.DisplayAlert("Congratulations!", $"{_correctWord} is correct!","OK");
+                OnNewGame(); 
+            }
         }
     }
 }
